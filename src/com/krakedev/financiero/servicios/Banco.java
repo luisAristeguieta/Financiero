@@ -16,20 +16,28 @@ public class Banco {
 	public void setUltimoCodigo(int ultimoCodigo) {
 		this.ultimoCodigo = ultimoCodigo;
 	}
-	
+
 	public Cuenta crearCuenta(Cliente cliente) {
-	    String codigoStr = ultimoCodigo + "";
-	    ultimoCodigo++;
+		String codigoStr = ultimoCodigo + "";
+		ultimoCodigo++;
 
-	    Cuenta cuenta = new Cuenta(codigoStr);
-	    cuenta.setPropietario(cliente);
+		Cuenta cuenta = new Cuenta(codigoStr);
+		cuenta.setPropietario(cliente);
 
-	    return cuenta;
+		return cuenta;
 	}
-	
+
 	public boolean depositar(double monto, Cuenta cuenta) {
 		if (monto > 0) {
 			cuenta.setSaldoActual(cuenta.getSaldoActual() + monto);
+			return true;
+		}
+		return false;
+	}
+
+	public boolean retirar(double monto, Cuenta cuenta) {
+		if (monto > 0 && monto <= cuenta.getSaldoActual()) {
+			cuenta.setSaldoActual(cuenta.getSaldoActual() - monto);
 			return true;
 		}
 		return false;

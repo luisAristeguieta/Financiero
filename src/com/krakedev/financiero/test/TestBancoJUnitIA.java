@@ -73,4 +73,75 @@ public class TestBancoJUnitIA {
 		assertEquals(0.0, cuenta.getSaldoActual());
 	}
 	
+	@Test
+	public void shouldRetirarWhenMontoIsValidAndSaldoIsEnough() {
+		Banco banco = new Banco();
+		Cliente cliente = new Cliente("1757126528", "Luis", "Mena");
+		Cuenta cuenta = banco.crearCuenta(cliente);
+		banco.depositar(200.0, cuenta);
+
+		boolean resultado = banco.retirar(50.0, cuenta);
+
+		assertTrue(resultado);
+		assertEquals(150.0, cuenta.getSaldoActual());
+	}
+
+	@Test
+	public void shouldNotRetirarWhenMontoIsZero() {
+		Banco banco = new Banco();
+		Cliente cliente = new Cliente("1757126528", "Luis", "Mena");
+		Cuenta cuenta = banco.crearCuenta(cliente);
+		banco.depositar(200.0, cuenta);
+
+		boolean resultado = banco.retirar(0.0, cuenta);
+
+		assertFalse(resultado);
+		assertEquals(200.0, cuenta.getSaldoActual());
+	}
+
+	@Test
+	public void shouldNotRetirarWhenMontoIsNegative() {
+		Banco banco = new Banco();
+		Cliente cliente = new Cliente("1757126528", "Luis", "Mena");
+		Cuenta cuenta = banco.crearCuenta(cliente);
+		banco.depositar(200.0, cuenta);
+
+		boolean resultado = banco.retirar(-10.0, cuenta);
+
+		assertFalse(resultado);
+		assertEquals(200.0, cuenta.getSaldoActual());
+	}
+
+	@Test
+	public void shouldNotRetirarWhenMontoIsGreaterThanSaldo() {
+		Banco banco = new Banco();
+		Cliente cliente = new Cliente("1757126528", "Luis", "Mena");
+		Cuenta cuenta = banco.crearCuenta(cliente);
+		banco.depositar(200.0, cuenta);
+
+		boolean resultado = banco.retirar(300.0, cuenta);
+
+		assertFalse(resultado);
+		assertEquals(200.0, cuenta.getSaldoActual());
+	}
+
+	@Test
+	public void shouldRetirarWhenMontoIsEqualToSaldo() {
+		Banco banco = new Banco();
+		Cliente cliente = new Cliente("1757126528", "Luis", "Mena");
+		Cuenta cuenta = banco.crearCuenta(cliente);
+		banco.depositar(200.0, cuenta);
+		
+		System.out.println("Antes del retiro");
+		cuenta.imprimir();
+		
+		boolean resultado = banco.retirar(200.0, cuenta);
+
+		assertTrue(resultado);
+		assertEquals(0.0, cuenta.getSaldoActual());
+		System.out.println("Despues del retiro");
+		cuenta.imprimir();
+		
+	}
+	
 }
