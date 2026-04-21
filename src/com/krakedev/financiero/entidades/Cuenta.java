@@ -6,11 +6,11 @@ public class Cuenta {
 	private String tipo;
 	private Cliente propietario;
 	
-	
 	public Cuenta(String id, double saldoActual, String tipo) {
 		this.id = id;
 		this.saldoActual = saldoActual; // Igual se iniciaria en cero por default solo que tipo double.
 		this.tipo = "A";
+		propietario = new Cliente(); // Agrega en el contrustor para crear un nuevo objeto vacio tipo cliente.
 	}
 
 	public String getId() {
