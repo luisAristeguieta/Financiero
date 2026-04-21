@@ -4,6 +4,7 @@ public class Cuenta {
 	private String id;
 	private double saldoActual;
 	private String tipo;
+	private Cliente propietario;
 	
 	
 	public Cuenta(String id, double saldoActual, String tipo) {
@@ -36,9 +37,18 @@ public class Cuenta {
 		this.tipo = tipo;
 	}
 	
+	public Cliente getPropietario() {
+		return propietario;
+	}
+
+	public void setPropietario(Cliente propietario) {
+		this.propietario = propietario;
+	}
+	
 	public void imprimir() {
 		String mensaje;
-		mensaje = "Id: "+ id + "" +  " |Saldo Actual: " + saldoActual + " |Tipo: " + tipo; 
+		mensaje = "Id: "+ id + "" +  " |Saldo Actual: " + saldoActual + " |Tipo: " + tipo;
 		System.out.println(mensaje);
+		propietario.imprimir();
 	}
 }
