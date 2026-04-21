@@ -42,4 +42,14 @@ public class Banco {
 		}
 		return false;
 	}
+	
+	public boolean transferir(Cuenta origen, Cuenta destino) {
+		double monto = origen.getSaldoActual(); // Se obtenedria el valor original de origen
+
+		if (retirar(monto, origen)) {
+			depositar(monto, destino);
+			return true;
+		}
+		return false;
+	}
 }

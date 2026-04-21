@@ -144,4 +144,82 @@ public class TestBancoJUnitIA {
 		
 	}
 	
+	@Test
+	public void shouldTransferAllSaldoFromOrigenToDestino() {
+		Banco banco = new Banco();
+		Cliente clienteOrigen = new Cliente("1757126528", "Luis", "Mena");
+		Cliente clienteDestino = new Cliente("1723456789", "Maria", "Lopez");
+
+		Cuenta origen = banco.crearCuenta(clienteOrigen);
+		Cuenta destino = banco.crearCuenta(clienteDestino);
+
+		banco.depositar(300.0, origen);
+
+		System.out.println("=== BEFORE TRANSFER ===");
+		System.out.println("Origen saldo: " + origen.getSaldoActual());
+		System.out.println("Destino saldo: " + destino.getSaldoActual());
+
+		boolean resultado = banco.transferir(origen, destino);
+
+		System.out.println("=== AFTER TRANSFER ===");
+		System.out.println("Origen saldo: " + origen.getSaldoActual());
+		System.out.println("Destino saldo: " + destino.getSaldoActual());
+
+		assertTrue(resultado);
+		assertEquals(0.0, origen.getSaldoActual());
+		assertEquals(300.0, destino.getSaldoActual());
+	}
+
+	@Test
+	public void shouldNotTransferWhenOrigenHasZeroSaldo() {
+		Banco banco = new Banco();
+		Cliente clienteOrigen = new Cliente("1757126528", "Luis", "Mena");
+		Cliente clienteDestino = new Cliente("1723456789", "Maria", "Lopez");
+
+		Cuenta origen = banco.crearCuenta(clienteOrigen);
+		Cuenta destino = banco.crearCuenta(clienteDestino);
+
+		System.out.println("=== BEFORE FAILED TRANSFER ===");
+		System.out.println("Origen saldo: " + origen.getSaldoActual());
+		System.out.println("Destino saldo: " + destino.getSaldoActual());
+
+		boolean resultado = banco.transferir(origen, destino);
+
+		System.out.println("=== AFTER FAILED TRANSFER ===");
+		System.out.println("Origen saldo: " + origen.getSaldoActual());
+		System.out.println("Destino saldo: " + destino.getSaldoActual());
+
+		assertFalse(resultado);
+		assertEquals(0.0, origen.getSaldoActual());
+		assertEquals(0.0, destino.getSaldoActual());
+	}
+
+	@Test
+	public void shouldAccumulateSaldoInDestinoAfterTransfer() {
+		Banco banco = new Banco();
+		Cliente clienteOrigen = new Cliente("1757126528", "Luis", "Mena");
+		Cliente clienteDestino = new Cliente("1723456789", "Maria", "Lopez");
+
+		Cuenta origen = banco.crearCuenta(clienteOrigen);
+		Cuenta destino = banco.crearCuenta(clienteDestino);
+
+		banco.depositar(150.0, origen);
+		banco.depositar(50.0, destino);
+
+		System.out.println("=== BEFORE ACCUMULATED TRANSFER ===");
+		System.out.println("Origen saldo: " + origen.getSaldoActual());
+		System.out.println("Destino saldo: " + destino.getSaldoActual());
+
+		boolean resultado = banco.transferir(origen, destino);
+
+		System.out.println("=== AFTER ACCUMULATED TRANSFER ===");
+		System.out.println("Origen saldo: " + origen.getSaldoActual());
+		System.out.println("Destino saldo: " + destino.getSaldoActual());
+
+		assertTrue(resultado);
+		assertEquals(0.0, origen.getSaldoActual());
+		assertEquals(200.0, destino.getSaldoActual());
+	}
+	
+	
 }
